@@ -1,0 +1,9 @@
+Perl stands for _P_ractical _E_xtraction and _R_eport _L_anguage. Or Pathologically Ecliectic Rubbish Lister.
+Larry Wall originally wrote perl. It's opensource so it's community maintained. But Larry is the Benevolent Dictator of the organization.
+(as of now) the most recent version of perl(5) is 18
+compiled languages are compiled by a compiler then run. interpreted languages are interpreted by and interpreter. (sic)
+perl is a large and flexible language with a lot of things to do.
+everything!
+a one liner is run from the shell and a script is written and saved to disk, then run later.
+-w activates warnings. -e is followed by the string to eval
+
