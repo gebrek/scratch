@@ -1,3 +1,6 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; parameters
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defparameter *nodes* '((living-room (you are in the living room.
 							a wizard is snoring loudly on the couch.))
 						(garden (you are in a beautiful garden.
@@ -17,26 +20,28 @@
 						(garden (living-room east door))
 						(attic (living-room downstairs ladder))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; inner logic
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun describe-location (location nodes)
   (cadr (assoc location nodes)))
 (defun describe-path (edge)
   `(there is a ,(caddr edge) going ,(cadr edge) from here.))
-
 (defun describe-paths (location edges)
   (apply #'append (mapcar #'describe-path (cdr (assoc location edges)))))
-
-
 (defun objects-at (loc objs obj-locs)
   (labels ((at-loc-p (obj)
   					 (eq (cadr (assoc obj obj-locs)) loc)))
   	(remove-if-not #'at-loc-p objs)))
-
 (defun describe-objects (loc objs obj-loc)
   (labels ((describe-obj (obj)
   						 `(you see a ,obj on the floor.)))
   	(apply #'append (mapcar #'describe-obj (objects-at loc objs obj-loc)))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; user interactions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun look ()
   (append (describe-location *location* *nodes*)
   		  (describe-paths *location* *edges*)
@@ -59,17 +64,12 @@
 (defun inventory ()
   (cons 'items- (objects-at 'body *objects* *object-locations*)))
 
-(defun say-hello ()
-  (print "Name: ")
-  (let ((name (read)))
-  	(prin1 "Nice to meet you, ")
-  	(prin1 name)))
 
-(defun game-repl ()
-  (let ((cmd (game-read)))
-  	(unless (eq (car cmd) 'quit)
-  	  (game-print (game-eval cmd))
-  	  (game-repl))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; game repl
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defparameter *allowed-commands* '(look walk pickup inventory))
 
 (defun game-read ()
   (let ((cmd (read-from-string
@@ -77,8 +77,6 @@
   	(flet ((quote-it (x)
   					 (list 'quote x)))
   	  (cons (car cmd) (mapcar #'quote-it (cdr cmd))))))
-
-(defparameter *allowed-commands* '(look walk pickup inventory))
 
 (defun game-eval (sexp)
   (if (member (car sexp) *allowed-commands*)
@@ -104,3 +102,9 @@
   							 nil)
   				 'string))
   (fresh-line))
+
+(defun game-repl ()
+  (let ((cmd (game-read)))
+  	(unless (eq (car cmd) 'quit)
+  	  (game-print (game-eval cmd))
+  	  (game-repl))))
