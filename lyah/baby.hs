@@ -23,3 +23,17 @@ triangles = [(a,b,c) | a <- [1..30]
 factorial :: (Integral a) => a -> a
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
+
+bmiTell :: (RealFloat a) => a -> a -> String
+bmiTell weight height
+	| bmi <= skinny = "*LOW*"
+	| bmi <= normal = "*MED*"
+	| bmi <= fat 	= "*LRG*"
+	| otherwise   	= "*HGE*"
+	where bmi = weight / height ^ 2
+		  (skinny, normal, fat) = (18.5, 25.0, 30.0)
+
+greeting :: String -> String -> String
+greeting firstname lastname  = [f] ++ ". " ++ [l] ++ "."
+		where (f:_) = firstname
+			  (l:_) = lastname
