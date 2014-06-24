@@ -13,7 +13,7 @@ pblm2 :: Integer
 pblm2 = sum (filter (even) (fib 4000000))
 
 factor :: Integral t => t -> [t]
-factor n = [x|x<-[1..n],(mod n x)==0]
+factor n = [x|x<-[n,n-1..1],(mod n x)==0]
 
 isPrime :: Integral a => a -> Bool
 isPrime n 
