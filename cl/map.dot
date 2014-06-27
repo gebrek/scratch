@@ -1,0 +1,10 @@
+digraph map {
+    size = "10,10";
+    Bedroom  -> Hall;
+    Hall     -> Near_room;
+    Hall     -> Far_room;
+    Hall     -> LOUNGE [shape=box];
+    Hall     -> Bathroom;
+    Bathroom -> Shower;
+    Bathroom -> Stall;
+}
