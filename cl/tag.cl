@@ -173,6 +173,7 @@
   (dot->png fname
             (lambda ()
               (graph->dot nodes edges))))
+
 (defun uedges->dot (edges)
   (maplist (lambda (lst)
              (mapc (lambda (edge)
@@ -186,6 +187,7 @@
                        princ "\"];")))
              (cdar lst))
            edges))
+
 (defun ugraph->dot (nodes edges)
   (princ "graph{")
   (nodes->dot nodes)
